@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% macro days_of_week(days_of_week) -%}
+	
+{%- endmacro %}
+
+{% macro get_day_td(text, enabled) -%}
+	{% if enabled %}
+		<td class="day_display enabled">{{ text }}</td>
+	{% else %}
+		<td class="day_display">{{ text }}</td>
+	{% endif %}
+{%- endmacro %}
+
+{% block body %}
+
+	{% for course in courses %}
+	<div class="row">
+		<div class="col s12">
+			<div class="card hoverable">
+				<div class="card-content">
+					<div>{{ course.subject }} {{ course.number }} [{{ course.section }}]</div>
+					<div>{{ course.title }} </div>
+					<div>CRN: {{ course.crn }}</div>
+					<div>Meeting Times:
+					{% for meeting_time in course.meeting_times %}
+						<div class="card">
+							<div class="card-content blue-grey lighten-4">
+							{% if meeting_time.start_time != None and meeting_time.end_time != None %}
+								{{ meeting_time.start_time.strftime("%I:%M %p") }} - {{ meeting_time.end_time.strftime("%I:%M %p") }}
+							{% else %}
+								(None)
+							{% endif %}
+							
+							<br>
+							({{ meeting_time.building }})
+
+							<br>
+							<table class="centered equal-cols">
+								<tr>
+									{{ get_day_td('Su', meeting_time.days_of_week[0]) }}
+									{{ get_day_td('M', meeting_time.days_of_week[1]) }}
+									{{ get_day_td('T', meeting_time.days_of_week[2]) }}
+									{{ get_day_td('W', meeting_time.days_of_week[3]) }}
+									{{ get_day_td('Th', meeting_time.days_of_week[4]) }}
+									{{ get_day_td('F', meeting_time.days_of_week[5]) }}
+									{{ get_day_td('S', meeting_time.days_of_week[6]) }}
+								</tr>
+							</table>
+							</div>
+						</div>
+					{% endfor %}
+					</div>
+					<div>Instructors:
+					{% for instructor in course.instructors %}
+						<div class="card">
+							<div class="card-content blue-grey lighten-4">
+								{% if not instructor.primary %}
+									<span class="grey-text">(Secondary)</span>
+									<br>
+									<br>
+								{% endif %}
+									{{ instructor.name }}
+									<br>
+									{% filter lower %}{{ instructor.email }}{% endfilter %}
+									<br>
+							</div>
+						</div>
+					{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+{% endblock %}

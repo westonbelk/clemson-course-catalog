@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block body %}
+	<div class="card hoverable">
+		<form class="card-content">
+			<div class="input-field">
+				<input type="text" name="subject" class="validate">
+				<label for="subject">Subject</label>
+			</div>
+			<div class="input-field">
+				<input type="number" name="min">
+				<label for="min">Minimum</label>
+			</div>
+			<div class="input-field">
+				<input type="number" name="max">
+				<label for="max">Maximum</label>
+			</div>
+			<div class="input-field">
+				<input type="text" name="title">
+				<label for="title">Title</label>
+			</div>
+
+			<button type="submit" class="btn waves-effect waves-light brown">
+				Search
+				<i class="material-icons right">search</i>
+			</button>
+		</form>
+	</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+body {
+	background-color: #bcaaa4;
+}
+
+header {
+	margin-bottom: 5px;
+}
+
+div.row {
+	margin-bottom: 10px;
+}
+
+td.enabled {
+	color: red;
+}
+
+table.equal-cols {
+	table-layout: fixed;
+}
