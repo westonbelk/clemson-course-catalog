@@ -4,7 +4,9 @@ import math
 from functional import seq
 from Course import Course
 
+
 app = Flask(__name__)
+
 
 #
 # Load courses
@@ -15,6 +17,7 @@ with open('data/courses.json') as f:
 		lambda c: Course(c),
 		json.loads(f.read())
 	))
+
 
 #
 # Routes
