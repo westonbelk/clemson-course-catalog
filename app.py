@@ -54,7 +54,12 @@ def query():
 	else:
 		min_query_number = int(min_query_number)
 
-	return render_template('courses.html', courses=seq(courses)
+	if(request.args.get('compact') == 'on'):
+		template = 'courses-compact.html'
+	else:
+		template = 'courses.html'
+
+	return render_template(template, courses=seq(courses)
 		.filter(lambda c: subject == None or subject == '' or c.subject.lower() == subject.lower())
 		.filter(lambda c: c.number >= min_query_number)
 		.filter(lambda c: c.number <= max_query_number)

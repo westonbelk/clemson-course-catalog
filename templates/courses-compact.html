@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% macro days_of_week(days_of_week) -%}
+	
+{%- endmacro %}
+
+{% macro is_enabled(text, enabled) -%}
+	{% if enabled %}
+		{{ text }}, 
+	{% else %}
+	{% endif %}
+{%- endmacro %}
+
+{% block body %}
+	<div class="row">
+		<div class="col s12">
+			<div class="card hoverable">
+				<div class="card-content">
+					<table class="striped">
+					<thead>
+						<th>Class</th>
+						<th>Title</th>
+						<th>Meeting Days</th>
+						<th>Meeting Times</th>
+						<th>Instructor</th>
+					</thead>
+					<tbody>
+					{% for course in courses %}
+					<tr>
+						<td>{{ course.subject }} {{ course.number }}</td>
+						<td>{{ course.title }}</td>
+						<td>
+							{% for meeting_time in course.meeting_times %}
+								{{ is_enabled('Su', meeting_time.days_of_week[0]) }}
+								{{ is_enabled('M', meeting_time.days_of_week[1]) }}
+								{{ is_enabled('T', meeting_time.days_of_week[2]) }}
+								{{ is_enabled('W', meeting_time.days_of_week[3]) }}
+								{{ is_enabled('Th', meeting_time.days_of_week[4]) }}
+								{{ is_enabled('F', meeting_time.days_of_week[5]) }}
+								{{ is_enabled('S', meeting_time.days_of_week[6]) }}
+							{% endfor %}
+						</td>
+						<td>
+							{% for meeting_time in course.meeting_times %}
+								{% if meeting_time.start_time != None and meeting_time.end_time != None %}
+									{{ meeting_time.start_time.strftime("%I:%M %p") }} - {{ meeting_time.end_time.strftime("%I:%M %p") }}
+								{% else %}
+									(None)
+								{% endif %}
+							{% endfor %}
+						</td>
+						<td>
+							{% if course.instructors|length > 0 %}
+								{{ course.instructors[0].name }}
+							{% endif %}
+						</td>
+					</tr>
+
+					{% endfor %}
+					</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
